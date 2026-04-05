@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Create New Bill | BillPro{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'dashboard' %}" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i> Back to Dashboard</a>
+        <h1 style="font-size: 2.2rem; color: var(--primary); margin-top: 1rem;">Generate Professional Bill</h1>
+    </div>
+
+    <div class="content-card">
+        <form method="post">
+            {% csrf_token %}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="{{ form.project_name.id_for_label }}">Project Name</label>
+                    <input type="text" name="project_name" id="{{ form.project_name.id_for_label }}" placeholder="e.g. Website Redesign" required>
+                    {% if form.project_name.errors %}<small style="color: #ff4d4d;">{{ form.project_name.errors.0 }}</small>{% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.client_name.id_for_label }}">Client Name</label>
+                    <input type="text" name="client_name" id="{{ form.client_name.id_for_label }}" placeholder="Acme Corp" required>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.client_phone.id_for_label }}">Client Phone Number (For WhatsApp)</label>
+                    <input type="text" name="client_phone" id="{{ form.client_phone.id_for_label }}" placeholder="+1234567890">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="{{ form.client_address.id_for_label }}">Client Address</label>
+                    <textarea name="client_address" id="{{ form.client_address.id_for_label }}" rows="2" placeholder="Street, City, State, ZIP"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.billing_date.id_for_label }}">Billing Date</label>
+                    <input type="date" name="billing_date" id="{{ form.billing_date.id_for_label }}" required>
+                </div>
+                 <div class="form-group">
+                    <label for="{{ form.price.id_for_label }}">Base Price (INR)</label>
+                    <input type="number" step="0.01" name="price" id="{{ form.price.id_for_label }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.gst_rate.id_for_label }}">GST Rate (%)</label>
+                    <select name="gst_rate" id="{{ form.gst_rate.id_for_label }}">
+                        <option value="0.00">0%</option>
+                        <option value="5.00">5%</option>
+                        <option value="12.00">12%</option>
+                        <option value="18.00" selected>18%</option>
+                        <option value="28.00">28%</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.1rem; margin-top: 2rem;">Create Bill & Save PDF</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

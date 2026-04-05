@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | BillPro{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 3rem auto;">
+    <div class="content-card">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem; color: var(--primary);">Welcome Back</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}" id="{{ field.id_for_label }}" required>
+                    {% if field.errors %}
+                        <p style="color: #ff4d4d; font-size: 0.8rem; margin-top: 0.3rem;">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; margin-top: 1rem; font-size: 1.1rem;">Sign In</button>
+        </form>
+        <p style="text-align: center; margin-top: 2rem; color: rgba(255,255,255,0.6);">Don't have an account? <a href="{% url 'register' %}" style="color: var(--primary); text-decoration: none;">Join Free</a></p>
+    </div>
+</div>
+{% endblock %}

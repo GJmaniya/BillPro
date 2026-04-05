@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | BillPro{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem;">
+    <div>
+        <h1 style="font-size: 2.5rem; color: var(--primary);">Welcome, {{ user.username|title }} 👋</h1>
+        <p style="color: rgba(255,255,255,0.6);">Manage your invoices and delivery notes from one place.</p>
+    </div>
+    <div style="display: flex; gap: 1rem;">
+        <a href="{% url 'create_bill' %}" class="btn btn-primary"><i class="fas fa-plus"></i> New Bill</a>
+        <a href="{% url 'create_challan' %}" class="btn btn-outline" style="border-width: 1px;"><i class="fas fa-plus"></i> New Challan</a>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 3rem;">
+    <section>
+        <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem; color: var(--primary);">Recent Bills</h2>
+        {% if bills %}
+            {% for bill in bills %}
+                <div class="content-card" style="padding: 1.5rem; margin-bottom: 1rem; transition: transform 0.3s; background: rgba(255,255,255,0.03);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4 style="margin-bottom: 0.3rem;">INV-{{ bill.id }} | {{ bill.project_name }}</h4>
+                            <p style="font-size: 0.9rem; color: rgba(255,255,255,0.5);">{{ bill.client_name }} | {{ bill.billing_date }}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-weight: 700; color: var(--primary); font-size: 1.2rem;">₹{{ bill.total_amount }}</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
+                        <a href="{% url 'download_bill' bill.id %}" class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem 1rem;"><i class="fas fa-download"></i> PDF</a>
+                        <a href="{% url 'whatsapp_share' bill.id %}" target="_blank" class="btn" style="background: rgba(37, 211, 102, 0.2); color: #25D366; font-size: 0.8rem; padding: 0.5rem 1rem;"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: rgba(255,255,255,0.4); text-align: center; padding: 2rem;">No bills created yet.</p>
+        {% endif %}
+    </section>
+
+    <section>
+        <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem; border-left: 4px solid var(--primary); padding-left: 1rem; color: var(--primary);">Recent Challans</h2>
+        {% if challans %}
+            {% for challan in challans %}
+                <div class="content-card" style="padding: 1.5rem; margin-bottom: 1rem; transition: transform 0.3s; background: rgba(255,255,255,0.03);">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h4 style="margin-bottom: 0.3rem;">CH-{{ challan.id }} | {{ challan.project_name }}</h4>
+                            <p style="font-size: 0.9rem; color: rgba(255,255,255,0.5);">{{ challan.client_name }} | {{ challan.delivery_date }}</p>
+                        </div>
+                        <div style="text-align: right;">
+                             <p style="font-size: 0.7rem; color: rgba(255,255,255,0.4);">Ready for Dispatch</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
+                        <a href="{% url 'download_challan' challan.id %}" class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem 1rem;"><i class="fas fa-download"></i> PDF</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: rgba(255,255,255,0.4); text-align: center; padding: 2rem;">No challans created yet.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

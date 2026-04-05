@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Create New Challan | BillPro{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <div style="margin-bottom: 2rem;">
+        <a href="{% url 'dashboard' %}" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i> Back to Dashboard</a>
+        <h1 style="font-size: 2.2rem; color: var(--primary); margin-top: 1rem;">Generate Delivery Challan</h1>
+    </div>
+
+    <div class="content-card">
+        <form method="post">
+            {% csrf_token %}
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="{{ form.project_name.id_for_label }}">Project Name</label>
+                    <input type="text" name="project_name" id="{{ form.project_name.id_for_label }}" placeholder="e.g. Project Delivery" required>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.client_name.id_for_label }}">Receiver's Name</label>
+                    <input type="text" name="client_name" id="{{ form.client_name.id_for_label }}" placeholder="Acme Corp" required>
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.delivery_date.id_for_label }}">Delivery Date</label>
+                    <input type="date" name="delivery_date" id="{{ form.delivery_date.id_for_label }}" required>
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="{{ form.client_address.id_for_label }}">Receiver's Address</label>
+                    <textarea name="client_address" id="{{ form.client_address.id_for_label }}" rows="2" placeholder="Street, City, ZIP"></textarea>
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label for="{{ form.description.id_for_label }}">Description of Goods / Services</label>
+                    <textarea name="description" id="{{ form.description.id_for_label }}" rows="4" placeholder="List items or services delivered..."></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.2rem; font-size: 1.1rem; margin-top: 2rem;">Create Delivery Challan</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

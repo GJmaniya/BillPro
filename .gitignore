@@ -1,0 +1,16 @@
+# SQLite
+db.sqlite3
+
+# Python Virtual Environment
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Django Media
+media/
+
+# IDEs
+.vscode/
+.idea/
